@@ -15,7 +15,7 @@ class FakeUserRepository(IUserRepository):
     def read(self, id: int):
         pass
 
-    def update(self, id: int, fields_to_update) -> None:
+    def update(self, id: int, user_update) -> None:
         pass
 
     def delete(self, id: int) -> None:

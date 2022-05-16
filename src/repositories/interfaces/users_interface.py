@@ -4,14 +4,14 @@ Links:
 https://breadcrumbscollector.tech/python-the-clean-architecture-in-2021/
 '''
 import abc
-from src.schemas.user_schema import User
+from src.schemas.user_schema import UserCreate, UserUpdate, User
 
 class IUserRepository(abc.ABC):
     def __init__(self):
         pass
 
     @abc.abstractmethod
-    def create(self, user: User) -> int:
+    def create(self, user: UserCreate) -> int:
         pass
 
     @abc.abstractmethod
@@ -19,7 +19,7 @@ class IUserRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def update(self, id: int, fields_to_update: User) -> None:
+    def update(self, id: int, user_update: UserUpdate) -> None:
         pass
 
     @abc.abstractmethod

@@ -1,5 +1,5 @@
 from src.repositories.implementations.user_sqlalchemy_repository import UserRepository
-from src.schemas.user_schema import UserCreate, User
+from src.schemas.user_schema import UserCreate, UserUpdate, User
 
 class UserService:
     def __init__(self, repository: UserRepository = UserRepository()):
@@ -11,7 +11,7 @@ class UserService:
     def read(self, id: int) -> User:
         return self.repository.read(id)
 
-    def update(self, id: int, user: User) -> None:
+    def update(self, id: int, user: UserUpdate) -> None:
         self.repository.update(id, user)
 
     def delete(self, id: int) -> None:

@@ -1,5 +1,5 @@
-from sqlalchemy import insert, select, update, delete
-from src.schemas.user_schema import UserCreate
+from sqlalchemy import select, update, delete
+from src.schemas.user_schema import UserCreate, UserUpdate, User
 from src.repositories.interfaces.users_interface import IUserRepository
 from src.repositories.models.user_sqlalchemy_model import UserModel
 from src.repositories.implementations.sqlalchemy_session import Session
@@ -9,25 +9,27 @@ class UserRepository(IUserRepository):
         self.session = session
 
     def create(self, user: UserCreate) -> int:
-        with self.session.begin() as session_transaction:
-            new_user = UserModel(**user.dict())
-            # self.session.execute(insert(new_user))
+        with self.session.begin():
+            new_user = UserModel(**user._fields())
+
             self.session.add(new_user)
-            # user_created = self.session.refresh(new_user)
 
-        # return user_created.id
+            self.session.flush()
 
-    def read(self, id: int) -> UserModel:
-        with self.session.begin() as session:
-            read_result = session.execute(select(UserModel).where(UserModel.id == id))
+            return new_user.id
 
-        return read_result
+    def read(self, id: int) -> User:
+        with self.session.begin():
+            read_user = self.session.scalar(select(UserModel).where(UserModel.id == id))
 
-    def update(self, id: int, fields_to_update: UserModel) -> None:
-        with self.session.begin() as session:
-            values = fields_to_update.__dict__
-            session.execute(update(UserModel).where(UserModel.id == id).values(**values))
+            user = User(**read_user._fields())
+
+            return user
+
+    def update(self, id: int, user_update: UserUpdate) -> None:
+        with self.session.begin():
+            self.session.execute(update(UserModel).where(UserModel.id == id).values(**user_update._fields()))
 
     def delete(self, id: int) -> None:
-        with self.session.begin() as session:
-            session.execute(delete(UserModel).where(UserModel.id == id))
+        with self.session.begin():
+            self.session.execute(delete(UserModel).where(UserModel.id == id))
