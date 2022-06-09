@@ -2,7 +2,7 @@ from typing import List
 from interface import implements
 from src.utils.app_types import Id
 from src.utils.pagination import Pagination
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, func
 from src.schemas.user_schema import UserCreate, UserUpdate, User
 from src.repositories.models.user_sqlalchemy_model import UserModel
 from src.repositories.interfaces.users_interface import IUserRepository
@@ -24,7 +24,9 @@ class UserRepository(implements(IUserRepository)):
 
     def read(self, id: int) -> User:
         with self.session.begin():
-            read_user = self.session.scalar(select(UserModel).where(UserModel.id == id))
+            read_user = self.session.scalar(
+                select(UserModel).where(UserModel.id == id)
+            )
 
             user = User(**read_user._fields())
 
@@ -39,7 +41,14 @@ class UserRepository(implements(IUserRepository)):
             self.session.execute(delete(UserModel).where(UserModel.id == id))
 
     def read_many(self, pagination: Pagination) -> List[User]:
-        raise NotImplementedError
+        with self.session.begin():
+            return self.session.execute(
+                select(UserModel) \
+                    .limit(pagination.limit) \
+                    .offset(pagination.skip) \
+                    .order_by(UserModel.created_at)
+            )
 
     def count(self) -> int:
-        raise NotImplementedError
+        with self.session.begin():
+            return self.session.scalar(func.count(UserModel))
