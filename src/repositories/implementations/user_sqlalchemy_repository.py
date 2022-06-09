@@ -1,14 +1,18 @@
+from typing import List
+from interface import implements
+from src.utils.app_types import Id
+from src.utils.pagination import Pagination
 from sqlalchemy import select, update, delete
 from src.schemas.user_schema import UserCreate, UserUpdate, User
-from src.repositories.interfaces.users_interface import IUserRepository
 from src.repositories.models.user_sqlalchemy_model import UserModel
-from src.repositories.implementations.sqlalchemy_session import Session
+from src.repositories.interfaces.users_interface import IUserRepository
+from src.repositories.implementations.sessions.sqlalchemy_session import Session
 
-class UserRepository(IUserRepository):
-    def __init__(self, session: Session = Session()):
-        self.session = session
+class UserRepository(implements(IUserRepository)):
+    def __init__(self, session = Session):
+        self.session = session()
 
-    def create(self, user: UserCreate) -> int:
+    def create(self, user: UserCreate) -> Id:
         with self.session.begin():
             new_user = UserModel(**user._fields())
 
@@ -33,3 +37,9 @@ class UserRepository(IUserRepository):
     def delete(self, id: int) -> None:
         with self.session.begin():
             self.session.execute(delete(UserModel).where(UserModel.id == id))
+
+    def read_many(self, pagination: Pagination) -> List[User]:
+        raise NotImplementedError
+
+    def count(self) -> int:
+        raise NotImplementedError
