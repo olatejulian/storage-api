@@ -3,30 +3,31 @@
 '''
 from fastapi import APIRouter, Depends
 
+from src.utils.app_types import Id
+from src.utils.pagination import Pagination
 from src.services.users_service import UserService
 from src.schemas.user_schema import UserCreate, UserUpdate, User
-from src.utils.pagination import Pagination
 
 router = APIRouter(prefix='/users', tags=['User Routes'])
 
-user_service = UserService()
+service = UserService()
 
 # CRUD basic routes
 @router.post('/')
 async def create_user(user: UserCreate) -> int:
-    return user_service.create(user)
+    return service.create(user)
 
 @router.get('/{id}', response_model=User)
-async def read_user(id: int) -> User:
-    return user_service.read(id)
+async def read_user(id: Id) -> User:
+    return service.read(id)
 
 @router.patch('/{id}')
-async def update_user(id: int, user: UserUpdate) -> None:
-    user_service.update(id, user)
+async def update_user(id: Id, user: UserUpdate) -> None:
+    service.update(id, user)
 
 @router.delete('/{id}')
-async def delete_user(id: int) -> None:
-    user_service.delete(id)
+async def delete_user(id: Id) -> None:
+    service.delete(id)
 
 #complex routes
 @router.get('/')

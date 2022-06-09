@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.routers import users_route
-from src.repositories.implementations.sqlalchemy_session import engine
+from src.repositories.implementations.sessions.sqlalchemy_session import engine
 from src.repositories.models.user_sqlalchemy_model import Base
 
 app = FastAPI()

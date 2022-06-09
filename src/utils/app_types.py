@@ -1,3 +1,3 @@
-from pydantic import NewType, Union
+from typing import NewType
 
-Id = NewType('Id', Union(int, str))
+Id = NewType('Id', int)
