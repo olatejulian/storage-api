@@ -13,7 +13,8 @@ from sqlalchemy import (
 from datetime import datetime
 from passlib.hash import bcrypt
 from sqlalchemy.orm import relationship
-from src.utils.sqlalchemy_base_model import SQLBaseModel
+
+from ...utils.sqlalchemy_base_model import SQLBaseModel
 
 class UserModel(SQLBaseModel):
     __tablename__ = 'users'

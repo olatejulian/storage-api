@@ -1,8 +1,9 @@
 from datetime import datetime
-from src.utils.app_types import Id
 from typing import Union, Optional
-from src.utils.pydantic_base_schema import BaseSchema
-from src.utils.all_fields_optional import AllFieldsOptional
+
+from ..utils.app_types import Id
+from ..utils.pydantic_base_schema import BaseSchema
+from ..utils.all_fields_optional import AllFieldsOptional
 
 class FileMetadataSchema(BaseSchema):
     name: str

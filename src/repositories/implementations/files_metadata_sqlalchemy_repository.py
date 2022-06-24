@@ -1,10 +1,11 @@
 from interface import implements
-from src.utils.app_types import Id
-from src.repositories.interfaces.files_metadata_interface import IFilesMetadataRepository
-from src.schemas.file_metadata_schema import FileMetadataCreate, FileMetadataUpdate, FileMetadata
+
+from ...utils.app_types import Id
+from ...schemas.file_metadata_schema import FileMetadataCreate, FileMetadataUpdate, FileMetadata
+
+from ..interfaces.files_metadata_interface import IFilesMetadataRepository
 
 class FilesMetadataRepository(implements(IFilesMetadataRepository)):
-    def __init__(self, files_metadata: FilesMetadataModel = FilesMetadataModel())
     def create(self, file_metadata: FileMetadataCreate) -> Id:
         pass
 

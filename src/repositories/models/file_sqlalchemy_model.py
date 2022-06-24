@@ -7,7 +7,8 @@ from sqlalchemy import (
     ForeignKey
 )
 from datetime import datetime
-from src.utils.sqlalchemy_base_model import SQLBaseModel
+
+from ...utils.sqlalchemy_base_model import SQLBaseModel
 
 class FilesMetadataModel(SQLBaseModel):
     __tablename__ = 'files_metadata'

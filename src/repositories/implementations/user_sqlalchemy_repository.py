@@ -1,15 +1,17 @@
 from typing import List
 from interface import implements
-from src.utils.app_types import Id
-from src.utils.pagination import Pagination
 from sqlalchemy import select, update, delete, func
-from src.schemas.user_schema import UserCreate, UserUpdate, User
-from src.repositories.models.user_sqlalchemy_model import UserModel
-from src.repositories.interfaces.users_interface import IUserRepository
-from src.repositories.implementations.sessions.sqlalchemy_session import Session
+
+from ...utils.app_types import Id
+from ...utils.pagination import Pagination
+from ...schemas.user_schema import UserCreate, UserUpdate, User
+
+from ..models.user_sqlalchemy_model import UserModel
+from ..interfaces.users_interface import IUserRepository
+from ..implementations.sessions.sqlalchemy_session import SQLAlchemySession
 
 class UserRepository(implements(IUserRepository)):
-    def __init__(self, session = Session):
+    def __init__(self, session = SQLAlchemySession()):
         self.session = session()
 
     def create(self, user: UserCreate) -> Id:

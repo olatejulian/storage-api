@@ -1,13 +1,17 @@
 import os
-import dotenv
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-env_loaded = dotenv.load_dotenv()
+class SQLAlchemySession:
+    def __init__(self):
+        load_dotenv()
 
-if env_loaded is True:
-    database_uri = os.getenv('DATABASE_URI')
+        DATABASE_URI = os.getenv('DATABASE_URI')
 
-    engine = create_engine(database_uri)
+        if DATABASE_URI is not None:
+            self.engine = create_engine(DATABASE_URI)
+            self.session = sessionmaker(self.engine)
 
-    Session = sessionmaker(engine)
+    def __call__(self):
+        return self.session() if else self.session is not None else raise Error('Can\'t connect to database.')

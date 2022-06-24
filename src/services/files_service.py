@@ -1,6 +1,6 @@
-from src.utils.app_types import Id
-from src.schemas.file_metadata_schema import FileMetadataCreate, FileMetadataUpdate, FileMetadata
-from src.repositories.implementations.files_metadata_sqlalchemy_repository import FilesMetadataRepository
+from ..utils.app_types import Id
+from ..schemas.file_metadata_schema import FileMetadataCreate, FileMetadataUpdate, FileMetadata
+from ..repositories.implementations.files_metadata_sqlalchemy_repository import FilesMetadataRepository
 
 class FilesService:
     def __init__(self, files_metadata_repository: FilesMetadataRepository = FilesMetadataRepository()):

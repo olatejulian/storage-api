@@ -1,8 +1,9 @@
 from typing import List
-from src.utils.app_types import Id
-from src.utils.pagination import Pagination
-from src.schemas.user_schema import UserCreate, UserUpdate, User
-from src.repositories.implementations.user_sqlalchemy_repository import UserRepository
+
+from ..utils.app_types import Id
+from ..utils.pagination import Pagination
+from ..schemas.user_schema import UserCreate, UserUpdate, User
+from ..repositories.implementations.user_sqlalchemy_repository import UserRepository
 
 class UserService:
     def __init__(self, repository: UserRepository = UserRepository()):
